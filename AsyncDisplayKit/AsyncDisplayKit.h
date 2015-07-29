@@ -7,9 +7,11 @@
  */
 
 #import <AsyncDisplayKit/ASDisplayNode.h>
+#import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
 #import <AsyncDisplayKit/ASDisplayNodeExtras.h>
 
 #import <AsyncDisplayKit/ASControlNode.h>
+#import <AsyncDisplayKit/ASControlNode+Subclasses.h>
 #import <AsyncDisplayKit/ASImageNode.h>
 #import <AsyncDisplayKit/ASTextNode.h>
 
