@@ -25,6 +25,8 @@ typedef UIImage *(^asimagenode_modification_block_t)(UIImage *image);
  */
 @interface ASImageNode : ASControlNode
 
+@property (nonatomic) BOOL displayWithoutProcessing;
+
 /**
  * @abstract The image to display.
  *

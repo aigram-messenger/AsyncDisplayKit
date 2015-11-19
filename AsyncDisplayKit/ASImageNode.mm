@@ -21,6 +21,7 @@
 
 @interface _ASImageNodeDrawParameters : NSObject
 
+@property (nonatomic, assign) BOOL displayWithoutProcessing;
 @property (nonatomic, assign, readonly) BOOL cropEnabled;
 @property (nonatomic, assign) BOOL opaque;
 @property (nonatomic, retain) UIImage *image;
@@ -36,7 +37,7 @@
 // TODO: eliminate explicit parameters with a set of keys copied from the node
 @implementation _ASImageNodeDrawParameters
 
-- (id)initWithCrop:(BOOL)cropEnabled opaque:(BOOL)opaque image:(UIImage *)image bounds:(CGRect)bounds contentsScale:(CGFloat)contentsScale backgroundColor:(UIColor *)backgroundColor contentMode:(UIViewContentMode)contentMode cropRect:(CGRect)cropRect imageModificationBlock:(asimagenode_modification_block_t)imageModificationBlock
+- (id)initWithCrop:(BOOL)cropEnabled opaque:(BOOL)opaque image:(UIImage *)image bounds:(CGRect)bounds contentsScale:(CGFloat)contentsScale backgroundColor:(UIColor *)backgroundColor contentMode:(UIViewContentMode)contentMode cropRect:(CGRect)cropRect imageModificationBlock:(asimagenode_modification_block_t)imageModificationBlock displayWithoutProcessing:(BOOL)displayWithoutProcessing
 {
   self = [self init];
   if (!self) return nil;
@@ -50,6 +51,7 @@
   _contentMode = contentMode;
   _cropRect = cropRect;
   _imageModificationBlock = [imageModificationBlock copy];
+    _displayWithoutProcessing = displayWithoutProcessing;
 
   return self;
 }
@@ -157,7 +159,7 @@
                                           backgroundColor:self.backgroundColor
                                               contentMode:self.contentMode
                                                  cropRect:self.cropRect
-                                   imageModificationBlock:self.imageModificationBlock];
+                                   imageModificationBlock:self.imageModificationBlock displayWithoutProcessing:_displayWithoutProcessing];
 }
 
 + (UIImage *)displayWithParameters:(_ASImageNodeDrawParameters *)parameters isCancelled:(asdisplaynode_iscancelled_block_t)isCancelled
@@ -168,6 +170,10 @@
     return nil;
   }
 
+    if (parameters.displayWithoutProcessing) {
+        return image;
+    }
+    
   ASDisplayNodeAssert(parameters.contentsScale > 0, @"invalid contentsScale at display time");
 
   // if the image is resizable, bail early since the image has likely already been configured

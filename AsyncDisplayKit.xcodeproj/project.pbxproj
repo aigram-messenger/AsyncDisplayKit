@@ -1704,6 +1704,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				DSTROOT = /tmp/AsyncDisplayKit.dst;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AsyncDisplayKit/AsyncDisplayKit-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1801,6 +1802,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
