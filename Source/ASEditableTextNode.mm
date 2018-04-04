@@ -216,6 +216,7 @@
   // Misc. State.
   BOOL _displayingPlaceholder; // Defaults to YES.
   BOOL _isPreservingSelection;
+  BOOL _disableTextUpdates;
   BOOL _selectionChangedForEditedText;
   NSRange _previousSelectedRange;
 }
@@ -586,8 +587,15 @@
 - (void)dropAutocorrection {
   _isPreservingSelection = YES; // Used in -textViewDidChangeSelection: to avoid informing our delegate about our preservation.
   
-  [_textKitComponents.textView.inputDelegate textWillChange:_textKitComponents.textView];
-  [_textKitComponents.textView.inputDelegate textDidChange:_textKitComponents.textView];
+  //[_textKitComponents.textView.inputDelegate textWillChange:_textKitComponents.textView];
+  NSRange range = self.selectedRange;
+  if (range.location > 0) {
+    _disableTextUpdates = YES;
+    self.selectedRange = NSMakeRange(range.location - 1, 0);
+    self.selectedRange = range;
+    _disableTextUpdates = NO;
+  }
+  //[_textKitComponents.textView.inputDelegate textDidChange:_textKitComponents.textView];
   
   _isPreservingSelection = NO;
 }
@@ -856,6 +864,9 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+  if (_disableTextUpdates) {
+    return NO;
+  }
   // Delegateify.
   return [self _delegateShouldChangeTextInRange:range replacementText:text];
 }
