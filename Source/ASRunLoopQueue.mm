@@ -522,6 +522,7 @@ static int const kASASCATransactionQueuePostOrder = 3000000;
   static ASCATransactionQueue *sharedQueue;
   dispatch_once(&onceToken, ^{
     sharedQueue = [[ASCATransactionQueue alloc] init];
+    [sharedQueue disable];
   });
   return sharedQueue;
 }
